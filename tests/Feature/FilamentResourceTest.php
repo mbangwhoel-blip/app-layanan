@@ -31,6 +31,7 @@ class FilamentResourceTest extends TestCase
         $response = $this->actingAs($this->adminUser)->get('/admin');
 
         $response->assertSuccessful();
+        $response->assertSeeLivewire('language-switch-component');
     }
 
     public function test_all_phase_resources_are_accessible_on_index(): void
