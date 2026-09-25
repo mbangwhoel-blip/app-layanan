@@ -31,6 +31,21 @@ class RehabilitationCase extends Model
         'closed_at',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (self $model): void {
+            if (blank($model->case_number)) {
+                $model->case_number = NumberSequence::getNextNumber('REH');
+            }
+            if (blank($model->received_at)) {
+                $model->received_at = now();
+            }
+            if (blank($model->status)) {
+                $model->status = RehabilitationCaseStatus::Received;
+            }
+        });
+    }
+
     /**
      * @return array<string, string>
      */

@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum RehabilitationCaseStatus: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+
+enum RehabilitationCaseStatus: string implements HasColor, HasLabel
 {
     case Received = 'received';
     case Assessment = 'assessment';
@@ -10,6 +13,21 @@ enum RehabilitationCaseStatus: string
     case InService = 'in_service';
     case Monitoring = 'monitoring';
     case Closed = 'closed';
+
+    public function getLabel(): ?string
+    {
+        return $this->label();
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Received => 'info',
+            self::Assessment, self::ServicePlanning => 'warning',
+            self::InService, self::Monitoring => 'primary',
+            self::Closed => 'success',
+        };
+    }
 
     public function label(): string
     {

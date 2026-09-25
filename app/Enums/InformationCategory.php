@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum InformationCategory: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+
+enum InformationCategory: string implements HasColor, HasLabel
 {
     case Program = 'program';
     case Rehabilitation = 'rehabilitation';
@@ -10,6 +13,23 @@ enum InformationCategory: string
     case Elderly = 'elderly';
     case Complaint = 'complaint';
     case Other = 'other';
+
+    public function getLabel(): ?string
+    {
+        return $this->label();
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Program => 'primary',
+            self::Rehabilitation => 'warning',
+            self::Disability => 'info',
+            self::Elderly => 'success',
+            self::Complaint => 'danger',
+            self::Other => 'gray',
+        };
+    }
 
     public function label(): string
     {

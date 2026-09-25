@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ServiceRequestStatus;
+use App\Models\Concerns\HasApprovals;
 use App\Models\Concerns\HasDispositions;
 use App\Models\Concerns\HasStatusHistories;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ServiceRequest extends Model
 {
-    use HasDispositions, HasFactory, HasStatusHistories, SoftDeletes;
+    use HasApprovals, HasDispositions, HasFactory, HasStatusHistories, SoftDeletes;
 
     protected $fillable = [
         'request_number',
@@ -40,6 +41,22 @@ class ServiceRequest extends Model
         'rejection_reason',
         'completed_at',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (self $model): void {
+            if (blank($model->request_number)) {
+                $serviceTypeCode = $model->serviceType?->code ?? 'REQ';
+                $model->request_number = NumberSequence::getNextNumber($serviceTypeCode);
+            }
+            if (blank($model->submitted_at)) {
+                $model->submitted_at = now();
+            }
+            if (blank($model->status)) {
+                $model->status = ServiceRequestStatus::Submitted;
+            }
+        });
+    }
 
     /**
      * @return array<string, string>

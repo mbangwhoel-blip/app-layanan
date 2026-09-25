@@ -53,6 +53,14 @@ class ServiceType extends Model
     }
 
     /**
+     * @return HasMany<ServiceRequirement, $this>
+     */
+    public function serviceRequirements(): HasMany
+    {
+        return $this->requirements();
+    }
+
+    /**
      * @return HasMany<ServiceRequest, $this>
      */
     public function serviceRequests(): HasMany

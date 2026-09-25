@@ -2,7 +2,10 @@
 
 namespace App\Enums;
 
-enum ReferralStatus: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasLabel;
+
+enum ReferralStatus: string implements HasColor, HasLabel
 {
     case Draft = 'draft';
     case Sent = 'sent';
@@ -11,6 +14,22 @@ enum ReferralStatus: string
     case Completed = 'completed';
     case Declined = 'declined';
     case Cancelled = 'cancelled';
+
+    public function getLabel(): ?string
+    {
+        return $this->label();
+    }
+
+    public function getColor(): string|array|null
+    {
+        return match ($this) {
+            self::Draft => 'gray',
+            self::Sent => 'info',
+            self::Accepted, self::InService => 'warning',
+            self::Completed => 'success',
+            self::Declined, self::Cancelled => 'danger',
+        };
+    }
 
     public function label(): string
     {

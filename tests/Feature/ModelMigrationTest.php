@@ -70,7 +70,7 @@ class ModelMigrationTest extends TestCase
 
         // 2. ServiceType & Requirement
         $serviceType = ServiceType::create([
-            'code' => 'DTSEN',
+            'code' => 'DTSEN_'.uniqid(),
             'name' => 'Surat Keterangan DTSEN',
             'handler' => ServiceRequestHandler::Dtsen,
             'is_active' => true,
@@ -115,7 +115,7 @@ class ModelMigrationTest extends TestCase
 
         // 5. DTSEN Certificate
         $purpose = DtsenPurpose::create([
-            'code' => 'spmb',
+            'code' => 'spmb_'.uniqid(),
             'name' => 'SPMB Jalur Afirmasi',
             'max_decile' => 5,
             'validity_days' => 30,

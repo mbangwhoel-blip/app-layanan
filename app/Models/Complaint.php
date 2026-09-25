@@ -36,6 +36,21 @@ class Complaint extends Model
         'resolved_at',
     ];
 
+    protected static function booted(): void
+    {
+        static::creating(function (self $model): void {
+            if (blank($model->complaint_number)) {
+                $model->complaint_number = NumberSequence::getNextNumber('ADU');
+            }
+            if (blank($model->reported_at)) {
+                $model->reported_at = now();
+            }
+            if (blank($model->status)) {
+                $model->status = ComplaintStatus::Received;
+            }
+        });
+    }
+
     /**
      * @return array<string, string>
      */
