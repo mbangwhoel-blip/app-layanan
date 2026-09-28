@@ -15,7 +15,6 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Storage;
 
 class DownloadableFormsRelationManager extends RelationManager
 {
@@ -82,8 +81,8 @@ class DownloadableFormsRelationManager extends RelationManager
                 Action::make('download')
                     ->label('Unduh')
                     ->icon(Heroicon::OutlinedArrowDownTray)
-                    ->url(fn ($record) => $record->file_path ? Storage::url($record->file_path) : '#')
-                    ->openUrlInNewTab(),
+                    ->color('success')
+                    ->url(fn ($record) => route('formulir.download', $record->id)),
                 EditAction::make(),
                 DeleteAction::make(),
             ]);

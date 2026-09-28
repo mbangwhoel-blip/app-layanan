@@ -102,12 +102,12 @@
                     <div class="bg-white rounded-2xl border border-border-subtle p-6 hover:shadow-md transition-all flex flex-col justify-between group">
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-xl bg-brand-teal-light text-primary-container flex items-center justify-center font-bold">
+                                <div class="w-12 h-12 rounded-xl {{ $service->icon_box_classes }} flex items-center justify-center font-bold shadow-2xs group-hover:scale-105 transition-transform">
                                     <span class="material-symbols-outlined text-2xl">
-                                        {{ $service->code === 'DTSEN' ? 'assignment' : ($service->code === 'PBI' ? 'health_and_safety' : 'volunteer_activism') }}
+                                        {{ $service->icon }}
                                     </span>
                                 </div>
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-800 border border-teal-200">
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border {{ $service->category_badge_classes }}">
                                     {{ $service->category ?? 'Layanan Utama' }}
                                 </span>
                             </div>
@@ -147,11 +147,13 @@
                     <div class="bg-white rounded-2xl border border-border-subtle p-6 hover:shadow-md transition-all flex flex-col justify-between group">
                         <div class="space-y-4">
                             <div class="flex items-center justify-between">
-                                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
-                                    <span class="material-symbols-outlined text-2xl">info</span>
+                                <div class="w-12 h-12 rounded-xl {{ $info->icon_box_classes }} flex items-center justify-center font-bold shadow-2xs group-hover:scale-105 transition-transform">
+                                    <span class="material-symbols-outlined text-2xl">
+                                        {{ $info->icon }}
+                                    </span>
                                 </div>
-                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-blue-800 border border-blue-200 uppercase">
-                                    {{ $info->category }}
+                                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border {{ $info->category_badge_classes }}">
+                                    {{ $info->category_label }}
                                 </span>
                             </div>
 

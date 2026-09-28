@@ -52,8 +52,7 @@
                     </div>
                 </div>
 
-                <a href="{{ $form->file_path ? asset('storage/'.$form->file_path) : '#' }}"
-                   target="_blank"
+                <a href="{{ route('formulir.download', $form->id) }}"
                    class="px-5 py-2.5 rounded-xl bg-primary-container hover:bg-brand-teal-dark text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors shrink-0">
                     <span class="material-symbols-outlined text-base">download</span>
                     <span>Unduh Dokumen</span>

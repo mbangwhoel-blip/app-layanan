@@ -115,22 +115,104 @@
                 </div>
 
                 <!-- 4. Unggah Foto / Dokumen Bukti -->
-                <div class="space-y-2 pt-3 border-t border-border-subtle">
-                    <label class="block text-xs font-bold text-text-primary flex items-center justify-between">
-                        <span>4. Foto / Dokumen Pendukung (Opsional)</span>
-                        <span class="text-[11px] text-text-muted font-normal">Maks. 5 MB per file (JPG, PNG, PDF)</span>
-                    </label>
+                <div class="space-y-3 pt-4 border-t border-border-subtle">
+                    <div class="flex items-center justify-between">
+                        <label class="block text-xs font-bold text-text-primary">
+                            4. Foto / Dokumen Pendukung (Opsional)
+                        </label>
+                        <span class="text-[11px] text-text-muted font-normal">Maks. 5 MB per berkas (JPG, PNG, PDF)</span>
+                    </div>
 
-                    <div class="p-4 rounded-2xl border-2 border-dashed border-border-medium hover:border-primary-container transition-colors bg-surface-canvas text-center space-y-2">
-                        <span class="material-symbols-outlined text-primary-container text-2xl">add_photo_alternate</span>
-                        <p class="text-xs text-text-secondary">Foto lokasi kejadian atau kondisi warga sangat membantu percepatan verifikasi petugas lapangan.</p>
-                        <input type="file" wire:model="attachments" multiple accept=".jpg,.jpeg,.png,.pdf" class="text-xs mx-auto block">
-                        <div wire:loading wire:target="attachments" class="text-xs text-primary-container">Mengunggah file...</div>
+                    <!-- Modern File Upload Dropzone -->
+                    <div class="rounded-2xl border-2 border-dashed border-border-medium hover:border-primary-container bg-surface-canvas hover:bg-surface-subtle/50 transition-all p-6 md:p-8 text-center space-y-4">
+                        <label for="attachments_input" class="cursor-pointer block space-y-3">
+                            <!-- Prominent Icon Badge -->
+                            <div class="w-16 h-16 rounded-2xl bg-teal-50 border border-teal-200/80 text-primary-container flex items-center justify-center mx-auto shadow-xs hover:scale-105 transition-transform">
+                                <span class="material-symbols-outlined text-3xl">add_photo_alternate</span>
+                            </div>
+
+                            <!-- Guidance & Big Choose Files Button -->
+                            <div class="space-y-1.5">
+                                <p class="text-xs md:text-sm font-bold text-text-primary">
+                                    Unggah Bukti Lapangan atau Foto Kondisi Warga
+                                </p>
+                                <p class="text-xs text-text-secondary max-w-md mx-auto leading-relaxed">
+                                    Foto lokasi kejadian atau kondisi warga sangat membantu percepatan verifikasi petugas lapangan.
+                                </p>
+                            </div>
+
+                            <!-- Clear Styled Choose Files Button -->
+                            <div class="pt-1">
+                                <span class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container hover:bg-brand-teal-dark text-white text-xs font-bold shadow-xs transition-colors">
+                                    <span class="material-symbols-outlined text-lg">upload_file</span>
+                                    <span>Pilih Berkas / Foto</span>
+                                </span>
+                            </div>
+
+                            <p class="text-[11px] text-text-muted">
+                                Format didukung: JPG, PNG, atau PDF (Bisa pilih lebih dari satu file)
+                            </p>
+
+                            <!-- Hidden native file input activated via label -->
+                            <input id="attachments_input"
+                                   type="file"
+                                   wire:model="attachments"
+                                   multiple
+                                   accept=".jpg,.jpeg,.png,.pdf"
+                                   class="sr-only">
+                        </label>
+
+                        <!-- Loading State -->
+                        <div wire:loading wire:target="attachments" class="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center justify-center gap-2 animate-pulse">
+                            <span class="material-symbols-outlined text-base animate-spin">progress_activity</span>
+                            <span>Sedang memproses dan mengunggah berkas...</span>
+                        </div>
+
+                        <!-- Uploaded Files Preview List -->
                         @if (!empty($attachments))
-                            <div class="text-xs text-status-success font-semibold pt-1">
-                                {{ count($attachments) }} file terpilih
+                            <div class="pt-3 border-t border-border-subtle space-y-2 text-left">
+                                <div class="flex items-center justify-between text-xs pb-1">
+                                    <span class="font-bold text-text-primary flex items-center gap-1.5">
+                                        <span class="material-symbols-outlined text-status-success text-base">check_circle</span>
+                                        <span>{{ count($attachments) }} Berkas Berhasil Dipilih</span>
+                                    </span>
+                                    <button type="button"
+                                            wire:click="$set('attachments', [])"
+                                            class="text-status-danger hover:underline text-[11px] font-semibold">
+                                        Hapus Semua
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    @foreach ($attachments as $idx => $file)
+                                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white border border-border-subtle text-xs shadow-2xs">
+                                            <div class="flex items-center gap-2 truncate min-w-0 pr-2">
+                                                <span class="material-symbols-outlined text-primary-container text-lg shrink-0">
+                                                    {{ in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg', 'png']) ? 'image' : 'description' }}
+                                                </span>
+                                                <div class="truncate">
+                                                    <p class="font-semibold text-text-primary truncate">{{ $file->getClientOriginalName() }}</p>
+                                                    <p class="text-[10px] text-text-muted">{{ number_format($file->getSize() / 1024, 0) }} KB</p>
+                                                </div>
+                                            </div>
+                                            <button type="button"
+                                                    wire:click.stop="removeAttachment({{ $idx }})"
+                                                    class="p-1 rounded-lg hover:bg-rose-50 text-text-muted hover:text-status-danger transition-colors shrink-0"
+                                                    title="Hapus berkas ini">
+                                                <span class="material-symbols-outlined text-base">close</span>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         @endif
+
+                        @error('attachments')
+                            <span class="text-xs text-status-danger block text-left">{{ $message }}</span>
+                        @enderror
+                        @error('attachments.*')
+                            <span class="text-xs text-status-danger block text-left">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 

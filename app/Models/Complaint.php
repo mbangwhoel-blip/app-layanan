@@ -82,6 +82,14 @@ class Complaint extends Model
     }
 
     /**
+     * @return BelongsTo<ComplaintCategory, $this>
+     */
+    public function complaintCategory(): BelongsTo
+    {
+        return $this->category();
+    }
+
+    /**
      * @return BelongsTo<User, $this>
      */
     public function reporter(): BelongsTo

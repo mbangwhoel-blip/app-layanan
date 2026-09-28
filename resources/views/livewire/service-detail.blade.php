@@ -25,13 +25,13 @@
             <!-- Hero Card -->
             <div class="bg-white rounded-3xl border border-border-subtle p-6 md:p-8 space-y-6 shadow-xs relative overflow-hidden">
                 <div class="flex items-start justify-between gap-4">
-                    <div class="w-14 h-14 rounded-2xl bg-brand-teal-light text-primary-container flex items-center justify-center shrink-0">
+                    <div class="w-14 h-14 rounded-2xl {{ $serviceType?->icon_box_classes ?? ($infoPage?->icon_box_classes ?? 'bg-brand-teal-light text-primary-container') }} flex items-center justify-center shrink-0 shadow-2xs">
                         <span class="material-symbols-outlined text-3xl">
-                            {{ $serviceCode === 'DTSEN' ? 'assignment' : ($serviceCode === 'PBI' ? 'health_and_safety' : 'volunteer_activism') }}
+                            {{ $serviceType?->icon ?? ($infoPage?->icon ?? 'assignment') }}
                         </span>
                     </div>
-                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-teal-50 text-teal-800 border border-teal-200">
-                        {{ $serviceType?->category ?? ($infoPage?->category ?? 'Layanan Publik') }}
+                    <span class="px-3 py-1 rounded-full text-xs font-bold border {{ $serviceType?->category_badge_classes ?? ($infoPage?->category_badge_classes ?? 'bg-teal-50 text-teal-800 border-teal-200') }}">
+                        {{ $serviceType?->category ?? ($infoPage?->category_label ?? 'Layanan Publik') }}
                     </span>
                 </div>
 
@@ -221,6 +221,43 @@
                                      style="display: none;">
                                     {!! nl2br(e($faq->answer)) !!}
                                 </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            <!-- Section 4: Format Blanko & Dokumen Unduhan Resmi -->
+            @if($infoPage && $infoPage->downloadableForms && $infoPage->downloadableForms->isNotEmpty())
+                <div class="bg-white rounded-3xl border border-border-subtle p-6 md:p-8 space-y-4 shadow-xs">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2 text-primary-container">
+                            <span class="material-symbols-outlined text-2xl">download</span>
+                            <h2 class="text-lg font-bold text-text-primary">Format Dokumen &amp; Blanko Resmi</h2>
+                        </div>
+                        <p class="text-xs text-text-secondary">
+                            Unduh formulir atau surat pernyataan yang diperlukan sebagai lampiran pengajuan layanan ini.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                        @foreach($infoPage->downloadableForms as $f)
+                            <div class="p-4 rounded-xl bg-surface-canvas border border-border-subtle flex items-start justify-between gap-3">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-brand-teal-light text-primary-container flex items-center justify-center shrink-0">
+                                        <span class="material-symbols-outlined text-2xl">description</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-xs text-text-primary">{{ $f->name }}</p>
+                                        <p class="text-[11px] text-text-secondary">Dokumen Resmi Dinsos Kab. Blitar</p>
+                                        <span class="inline-block mt-1 text-[10px] font-semibold text-text-muted">Versi {{ $f->version ?? 'Terbaru' }}</span>
+                                    </div>
+                                </div>
+                                <a href="{{ route('formulir.download', $f->id) }}"
+                                   class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white hover:bg-surface-subtle text-primary-container border border-border-medium text-xs font-semibold transition-colors shrink-0">
+                                    <span class="material-symbols-outlined text-base">download</span>
+                                    <span>Unduh</span>
+                                </a>
                             </div>
                         @endforeach
                     </div>

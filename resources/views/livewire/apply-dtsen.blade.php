@@ -365,20 +365,28 @@
                 <!-- Unggah Berkas: KTP & KK -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
                     <!-- KTP Upload -->
-                    <div class="p-4 rounded-2xl border-2 border-dashed border-border-medium hover:border-primary-container transition-colors bg-surface-canvas text-center space-y-2">
-                        <div class="w-10 h-10 rounded-full bg-brand-teal-light text-primary-container flex items-center justify-center mx-auto">
-                            <span class="material-symbols-outlined text-xl">upload_file</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-xs text-text-primary block">Unggah Foto / Scan KTP <span class="text-status-danger">*</span></span>
-                            <span class="text-[11px] text-text-muted">JPG, PNG, atau PDF (maks. 2 MB)</span>
-                        </div>
-                        <input type="file" wire:model="ktp_file" accept=".jpg,.jpeg,.png,.pdf" class="text-xs mx-auto block">
-                        <div wire:loading wire:target="ktp_file" class="text-xs text-primary-container">Mengunggah...</div>
+                    <div class="p-4 rounded-2xl border-2 border-dashed border-border-medium hover:border-primary-container transition-colors bg-surface-canvas text-center space-y-2.5">
+                        <label for="dtsen_ktp_file" class="cursor-pointer block space-y-2">
+                            <div class="w-12 h-12 rounded-xl bg-teal-50 border border-teal-200/80 text-primary-container flex items-center justify-center mx-auto shadow-xs hover:scale-105 transition-transform">
+                                <span class="material-symbols-outlined text-2xl">badge</span>
+                            </div>
+                            <div>
+                                <span class="font-bold text-xs text-text-primary block">Unggah Foto / Scan KTP <span class="text-status-danger">*</span></span>
+                                <span class="text-[11px] text-text-muted">JPG, PNG, atau PDF (maks. 2 MB)</span>
+                            </div>
+                            <div class="pt-1">
+                                <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary-container text-white text-xs font-bold hover:bg-brand-teal-dark transition-colors shadow-2xs">
+                                    <span class="material-symbols-outlined text-base">upload_file</span>
+                                    <span>Pilih Berkas KTP</span>
+                                </span>
+                            </div>
+                            <input id="dtsen_ktp_file" type="file" wire:model="ktp_file" accept=".jpg,.jpeg,.png,.pdf" class="sr-only">
+                        </label>
+                        <div wire:loading wire:target="ktp_file" class="text-xs text-primary-container font-semibold animate-pulse">Mengunggah berkas...</div>
                         @if ($ktp_file)
-                            <div class="flex items-center justify-center gap-1.5 text-xs text-status-success font-semibold">
+                            <div class="flex items-center justify-center gap-1.5 text-xs text-status-success font-semibold pt-1">
                                 <span class="material-symbols-outlined text-sm">check_circle</span>
-                                <span>{{ $ktp_file->getClientOriginalName() }}</span>
+                                <span class="truncate max-w-[200px]">{{ $ktp_file->getClientOriginalName() }}</span>
                             </div>
                         @endif
                         @error('ktp_file')
@@ -387,20 +395,28 @@
                     </div>
 
                     <!-- KK Upload -->
-                    <div class="p-4 rounded-2xl border-2 border-dashed border-border-medium hover:border-primary-container transition-colors bg-surface-canvas text-center space-y-2">
-                        <div class="w-10 h-10 rounded-full bg-brand-teal-light text-primary-container flex items-center justify-center mx-auto">
-                            <span class="material-symbols-outlined text-xl">upload_file</span>
-                        </div>
-                        <div>
-                            <span class="font-bold text-xs text-text-primary block">Unggah Foto / Scan KK <span class="text-status-danger">*</span></span>
-                            <span class="text-[11px] text-text-muted">JPG, PNG, atau PDF (maks. 2 MB)</span>
-                        </div>
-                        <input type="file" wire:model="kk_file" accept=".jpg,.jpeg,.png,.pdf" class="text-xs mx-auto block">
-                        <div wire:loading wire:target="kk_file" class="text-xs text-primary-container">Mengunggah...</div>
+                    <div class="p-4 rounded-2xl border-2 border-dashed border-border-medium hover:border-primary-container transition-colors bg-surface-canvas text-center space-y-2.5">
+                        <label for="dtsen_kk_file" class="cursor-pointer block space-y-2">
+                            <div class="w-12 h-12 rounded-xl bg-teal-50 border border-teal-200/80 text-primary-container flex items-center justify-center mx-auto shadow-xs hover:scale-105 transition-transform">
+                                <span class="material-symbols-outlined text-2xl">family_restroom</span>
+                            </div>
+                            <div>
+                                <span class="font-bold text-xs text-text-primary block">Unggah Foto / Scan KK <span class="text-status-danger">*</span></span>
+                                <span class="text-[11px] text-text-muted">JPG, PNG, atau PDF (maks. 2 MB)</span>
+                            </div>
+                            <div class="pt-1">
+                                <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-primary-container text-white text-xs font-bold hover:bg-brand-teal-dark transition-colors shadow-2xs">
+                                    <span class="material-symbols-outlined text-base">upload_file</span>
+                                    <span>Pilih Berkas KK</span>
+                                </span>
+                            </div>
+                            <input id="dtsen_kk_file" type="file" wire:model="kk_file" accept=".jpg,.jpeg,.png,.pdf" class="sr-only">
+                        </label>
+                        <div wire:loading wire:target="kk_file" class="text-xs text-primary-container font-semibold animate-pulse">Mengunggah berkas...</div>
                         @if ($kk_file)
-                            <div class="flex items-center justify-center gap-1.5 text-xs text-status-success font-semibold">
+                            <div class="flex items-center justify-center gap-1.5 text-xs text-status-success font-semibold pt-1">
                                 <span class="material-symbols-outlined text-sm">check_circle</span>
-                                <span>{{ $kk_file->getClientOriginalName() }}</span>
+                                <span class="truncate max-w-[200px]">{{ $kk_file->getClientOriginalName() }}</span>
                             </div>
                         @endif
                         @error('kk_file')

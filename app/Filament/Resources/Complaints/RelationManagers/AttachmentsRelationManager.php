@@ -15,7 +15,6 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Support\Facades\Storage;
 
 class AttachmentsRelationManager extends RelationManager
 {
@@ -70,11 +69,17 @@ class AttachmentsRelationManager extends RelationManager
                     ->label('Tambah Lampiran'),
             ])
             ->recordActions([
-                Action::make('download')
-                    ->label('Lihat / Unduh')
-                    ->icon(Heroicon::OutlinedArrowDownTray)
-                    ->url(fn ($record) => $record->file_path ? Storage::url($record->file_path) : '#')
+                Action::make('view')
+                    ->label('Lihat')
+                    ->icon(Heroicon::OutlinedEye)
+                    ->color('info')
+                    ->url(fn ($record) => route('admin.media.complaints.view', $record->id))
                     ->openUrlInNewTab(),
+                Action::make('download')
+                    ->label('Unduh')
+                    ->icon(Heroicon::OutlinedArrowDownTray)
+                    ->color('success')
+                    ->url(fn ($record) => route('admin.media.complaints.download', $record->id)),
                 EditAction::make(),
                 DeleteAction::make(),
             ]);

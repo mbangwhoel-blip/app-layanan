@@ -53,6 +53,18 @@ class InformationPageSeeder extends Seeder
                         'version' => '2026.1',
                         'is_current' => true,
                     ],
+                    [
+                        'name' => 'Format Surat Pengantar Desa Pelayanan Sosial.pdf',
+                        'file_path' => 'forms/format_surat_pengantar_desa.pdf',
+                        'version' => '2026.1',
+                        'is_current' => true,
+                    ],
+                    [
+                        'name' => 'Format Surat Pernyataan Tidak Mampu Mandiri.pdf',
+                        'file_path' => 'forms/format_surat_pernyataan_tidak_mampu.pdf',
+                        'version' => '2026.1',
+                        'is_current' => true,
+                    ],
                 ],
                 'faqs' => [
                     [

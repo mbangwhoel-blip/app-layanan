@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\ServiceRequest;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -65,6 +66,15 @@ class FilamentResourceTest extends TestCase
 
         foreach ($routes as $route) {
             $response = $this->actingAs($this->adminUser)->get($route);
+            $response->assertSuccessful();
+        }
+    }
+
+    public function test_admin_can_access_edit_service_request(): void
+    {
+        $request = ServiceRequest::first();
+        if ($request) {
+            $response = $this->actingAs($this->adminUser)->get("/admin/service-requests/{$request->id}/edit");
             $response->assertSuccessful();
         }
     }

@@ -501,6 +501,18 @@
                         <span class="material-symbols-outlined text-sm">arrow_forward</span>
                     </a>
                 </div>
+
+                <!-- Download Blanko CTA Link (From Mockup) -->
+                <div class="mt-6 text-center bg-white p-4 rounded-xl border border-dashed border-border-medium">
+                    <p class="text-xs md:text-sm text-text-secondary">
+                        Membutuhkan format surat pernyataan tidak mampu atau format pengantar desa?
+                        <a href="{{ route('formulir.index') }}" wire:navigate
+                           class="inline-flex items-center gap-1 text-primary-container hover:text-brand-teal-dark font-bold ml-1 transition-colors">
+                            <span>Unduh Formulir &amp; Blanko Resmi</span>
+                            <span class="material-symbols-outlined text-base">download</span>
+                        </a>
+                    </p>
+                </div>
             </div>
 
             <!-- Downloadable Forms Widget -->
@@ -525,8 +537,7 @@
                                     <span class="text-[11px] text-text-muted">Versi {{ $form->version ?? 'Terbaru' }}</span>
                                 </div>
                             </div>
-                            <a href="{{ $form->file_path ? asset('storage/'.$form->file_path) : '#' }}"
-                               target="_blank"
+                            <a href="{{ route('formulir.download', $form->id) }}"
                                class="p-2 rounded-lg bg-white border border-border-medium hover:bg-brand-teal-light text-primary-container shrink-0 transition-colors"
                                title="Unduh Formulir">
                                 <span class="material-symbols-outlined text-base">download</span>

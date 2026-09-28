@@ -55,6 +55,14 @@ class CreateComplaint extends Component
         $this->village_id = null;
     }
 
+    public function removeAttachment(int $index): void
+    {
+        if (isset($this->attachments[$index])) {
+            unset($this->attachments[$index]);
+            $this->attachments = array_values($this->attachments);
+        }
+    }
+
     public function submit(): mixed
     {
         $this->validate([

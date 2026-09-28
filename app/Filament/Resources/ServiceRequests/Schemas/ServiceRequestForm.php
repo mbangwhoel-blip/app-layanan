@@ -128,13 +128,19 @@ class ServiceRequestForm
                                 ->rows(2)
                                 ->placeholder('Hasil kunjungan rumah / asesmen jika diperlukan'),
                             Textarea::make('rejection_reason')
-                                ->label('Alasan Penolakan')
+                                ->label('Alasan Penolakan / Permintaan Perbaikan')
                                 ->rows(2)
-                                ->placeholder('Alasan lengkap bila permohonan ditolak')
-                                ->visible(fn (Get $get): bool => in_array($get('status'), [
-                                    ServiceRequestStatus::Rejected->value,
-                                    ServiceRequestStatus::DocumentsIncomplete->value,
-                                ])),
+                                ->placeholder('Alasan lengkap bila permohonan ditolak atau perlu perbaikan berkas')
+                                ->visible(function (Get $get): bool {
+                                    $status = $get('status');
+                                    $val = $status instanceof ServiceRequestStatus ? $status->value : (string) $status;
+
+                                    return in_array($val, [
+                                        ServiceRequestStatus::Rejected->value,
+                                        ServiceRequestStatus::RevisionRequested->value,
+                                        ServiceRequestStatus::MinistryRejected->value,
+                                    ]);
+                                }),
                         ]),
                     ]),
             ]);

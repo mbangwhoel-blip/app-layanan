@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminMediaController;
+use App\Http\Controllers\FormDownloadController;
 use App\Livewire\ApplyDtsen;
 use App\Livewire\ApplyGeneral;
 use App\Livewire\ApplyPbi;
@@ -20,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Dibangun menggunakan Livewire v4 full-page components.
 */
+
+// Named login redirect for authentication guards
+Route::redirect('/login', '/admin/login')->name('login');
 
 // Beranda Utama
 Route::get('/', Home::class)->name('home');
@@ -60,3 +65,13 @@ Route::get('/verifikasi/{code?}', VerifyCertificate::class)->name('certificate.v
 // FAQ & Unduh Formulir
 Route::get('/faq', FaqIndex::class)->name('faq.index');
 Route::get('/formulir', FormDownloadIndex::class)->name('formulir.index');
+Route::get('/formulir/unduh/{key}', [FormDownloadController::class, 'quickDownload'])->name('formulir.quick-download');
+Route::get('/formulir/{form}/download', [FormDownloadController::class, 'download'])->name('formulir.download');
+
+// Admin Media Viewing & Downloading (Private documents protected by auth)
+Route::middleware(['auth'])->prefix('admin/media')->group(function () {
+    Route::get('/complaints/{attachment}/view', [AdminMediaController::class, 'viewComplaintAttachment'])->name('admin.media.complaints.view');
+    Route::get('/complaints/{attachment}/download', [AdminMediaController::class, 'downloadComplaintAttachment'])->name('admin.media.complaints.download');
+    Route::get('/services/{document}/view', [AdminMediaController::class, 'viewServiceDocument'])->name('admin.media.services.view');
+    Route::get('/services/{document}/download', [AdminMediaController::class, 'downloadServiceDocument'])->name('admin.media.services.download');
+});
